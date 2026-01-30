@@ -1,0 +1,120 @@
+PRD: ShowTime Enterprise (20-Page Comprehensive Blueprint)
+Project: End-to-End Entertainment Ticketing Web Ecosystem
+Version: 2.0 (Scalable Production Ready)
+________________________________________
+Page 1: Project Charter & Vision
+•	Mission: To provide a unified platform for movies, concerts, and sports with sub-second seat-locking latency.
+•	Success Metrics: Target 500,000 Monthly Active Users (MAU) within Year 1.
+•	Stakeholders: Users, Cinema Owners, Event Organizers, System Admins.
+Page 2: User Personas & Journey Mapping
+•	The Power User: Books 4+ movies a month; needs a "Fast Checkout" and loyalty rewards.
+•	The Corporate Booker: Needs GST invoices and bulk booking (10+ seats).
+•	The Cinema Staff: Uses the platform to validate tickets at the entry gate.
+Page 3: Market Analysis & Competitive Edge
+•	Competitor Benchmarking: Analysis of BookMyShow, Ticketmaster, and Paytm Insider.
+•	Edge Features: AI-based "Best Seat" suggestions, pre-ordered F&B (Food & Beverage), and integrated "Stream" VOD services.
+Page 4: System Architecture (High-Level)
+•	Microservices Design: Separate services for Auth, Booking, Payment, Catalog, and Notification.
+•	Data Flow: Next.js (Frontend) $\rightarrow$ Node.js API $\rightarrow$ Redis (Locking) $\rightarrow$ PostgreSQL (Permanent Storage).
+Page 5: Page Hierarchy & Site Map
+•	Level 1: Home, Movies, Events, Sports, Stream.
+•	Level 2: Listing Pages, Search Results, User Profile.
+•	Level 3: Booking Engine, Payment Gateway, Confirmation Page.
+Page 6: Functional Requirements - User Authentication
+•	Multi-Factor Auth: Login via Mobile OTP (Primary) + Email Backup.
+•	JWT Management: Secure token-based sessions with 7-day refresh cycles.
+•	OAuth: Google, Facebook, and Apple ID "One-Tap" login.
+Page 7: Location & Discovery Logic
+•	Geo-Fencing: Auto-detect city via IP/Browser Geo-location.
+•	City Modal: Support for 100+ cities with "Popular Cities" shortcuts.
+•	SEO Routes: Dynamic URL structure: /movies/[city]/[movie-name].
+Page 8: Movie & Event Catalog
+•	Rich Media: 4K Trailer support, 360-degree venue views for concerts.
+•	Metadata: IMDB ratings, Rotten Tomatoes scores, and "User Interest" (Heart icon).
+•	Language Toggle: Filter content by Audio and Subtitle availability.
+Page 9: Advanced Search & Recommendation Engine
+•	Elasticsearch Integration: Typo-tolerant search (e.g., "Avngers" $\rightarrow$ "Avengers").
+•	Collaborative Filtering: "Users who saw X also liked Y."
+Page 10: Theater & Screen Selection
+•	Cinema Listing: Sort by "Distance," "Price," or "Showtime."
+•	Showtime UI: Interactive buttons with color coding (Green: Available, Orange: Filling Fast, Red: Sold Out).
+________________________________________
+Page 11: Seat Arrangement Strategy (The Core)
+11.1 Tier-Based Categorization
+The system must support a minimum of three tiers per screen:
+1.	Platinum (VIP): Top-tier recliners, extra legroom, call-button service.
+2.	Gold (Premium): Middle rows, optimized viewing angle.
+3.	Silver (Executive): Front rows, budget-friendly pricing.
+11.2 The 2D/3D Grid Logic
+•	Dynamic Grid: Admins can define Row_ID (A-Z) and Seat_No (1-30).
+•	Pricing Matrix: * $Silver Price = Base$
+o	$Gold Price = Base \times 1.5$
+o	$Platinum Price = Base \times 2.2$
+Page 12: Real-time Seat Locking Logic
+•	Pessimistic Locking: Once a user clicks a seat, it is "Yellow" (Blocked) for all other users for 10 minutes.
+•	Redis Implementation: Keys expire automatically if the user abandons the checkout.
+Page 13: Food & Beverage (F&B) Integration
+•	Upselling: Show "Combos" (Popcorn + Soda) immediately after seat selection.
+•	Skip Option: Users can bypass F&B to go directly to payment.
+Page 14: Checkout & Order Summary
+•	Tax Engine: Automated calculation of CGST (9%) and SGST (9%).
+•	Convenience Fee: Platform fee per ticket (e.g., ₹25/ticket).
+•	Promo Codes: Validation engine for seasonal discounts.
+Page 15: Multi-Channel Payment Gateway
+•	Aggregators: Razorpay, BillDesk, and CCAvenue.
+•	Features: UPI Intent, EMI options for high-value event tickets, and "Buy Now Pay Later."
+________________________________________
+Page 16: Ticket Generation & QR Systems
+•	M-Ticket: SVG-based QR code containing Booking_ID and Secret_Key.
+•	Print-at-Home: PDF generation sent via email.
+•	Wallet Integration: "Add to Apple Wallet" / "Google Wallet" support.
+Page 17: User Profile & History
+•	Booking History: Detail of every transaction with "Re-book" functionality.
+•	Refund Tracker: Status of cancelled tickets (Initiated $\rightarrow$ Processed $\rightarrow$ Credited).
+Page 18: Admin Dashboard (Content & Analytics)
+•	CMS: Theater owners can upload bulk showtimes via CSV.
+•	Heatmaps: Visualizing which seats (Silver/Gold/Platinum) sell fastest to adjust pricing.
+Page 19: Security & Compliance
+•	Encryption: AES-256 for sensitive user data.
+•	Compliance: PCI-DSS for payments and GDPR for user privacy.
+•	Bot Protection: Google reCAPTCHA v3 on the "Proceed to Pay" button.
+Page 20: Scalability & Disaster Recovery
+•	Load Balancing: AWS ELB to distribute traffic across multiple server instances.
+•	Auto-Scaling: Spin up new servers automatically when concurrent users exceed 50,000.
+•	Backup: Hourly snapshots of the database to prevent data loss.
+Page 21: Sports Category - Discovery & UX
+21.1 Sport-Specific Landing Page
+Unlike movies, sports fans search by Tournament or Team.
+•	Tournament Buckets: IPL, ISL, Pro Kabaddi, Wimbledon, ICC World Cup.
+•	Team Follow: Users can "Follow" a team (e.g., CSK or Manchester United) to get push notifications for ticket sales.
+•	Match-Day Widgets: Live countdown timers for the next big match on the homepage.
+________________________________________
+Page 22: Stadium Seating & Tiered Categories
+22.1 Large-Scale Venue Mapping
+Stadiums have thousands of seats, making a single grid impossible. We implement a Sector-Based Selection:
+1.	Level 1: The Bird's Eye View: An SVG map of the entire stadium divided into Stands (North Stand, East Stand, Pavillion).
+2.	Level 2: Stand Selection: User clicks "East Stand" to see specific blocks.
+3.	Level 3: Block View: Detailed seat selection (Silver, Gold, Platinum).
+22.2 Tiered Pricing for Sports
+•	Platinum (VIP/Hospitality): Includes AC lounge access, unlimited F&B, and celebrity stand access.
+•	Gold (Premium Stands): Best viewing angles (Long-on, Long-off in Cricket).
+•	Silver (General Admission): High-energy fan zones, usually behind the goals or sightscreen.
+________________________________________
+Page 23: Sports-Specific Functional Requirements
+23.1 Merchandise Upselling
+During the booking flow, offer team jerseys or fan kits.
+•	Logic: If "CSK vs MI" is selected, show CSK and MI official jerseys in the "Add-ons" page.
+•	Data Fields: Item_ID, Size (S, M, L, XL), Quantity.
+23.2 Physical Ticket Delivery (High Security)
+Many major sporting events require physical tickets/wristbands for security.
+•	Courier Integration: Integration with BlueDart/Delhivery APIs.
+•	Box Office Pickup: Option to collect tickets at the stadium "Counter 4" with a digital receipt.
+•	Address Validation: Mandatory PIN code check for home delivery availability.
+________________________________________
+Page 24: Team & Venue Management (Admin)
+24.1 Team Profiles
+•	Manage team logos, squad lists, and home stadium data.
+•	Automated "Away Game" vs "Home Game" labeling.
+24.2 Inventory Bulk-Release
+•	Phase-wise Sales: Ability for admins to release 20% of tickets for "Early Bird" and the rest later.
+•	Waitlist Logic: If tickets sell out, users can join a waitlist to be notified of cancellations.
